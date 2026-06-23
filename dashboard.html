@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — GreenLog</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-page">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand-mark">GreenLog <span class="stamp">SDG 12.3</span></span>
+      <div class="user-pill">
+        <span class="who" id="who-text">—</span>
+        <button class="btn-ghost" id="logout-btn">Log out</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="dash">
+    <h1 class="page-title">Your ledger<span class="stamp">live</span></h1>
+    <p class="page-sub">Log every item that gets thrown out. Patterns show up after a few entries.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Total entries</div>
+        <div class="stat-value" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Last 7 days</div>
+        <div class="stat-value" id="stat-week">0</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="stat-label">Top category</div>
+        <div class="stat-value" id="stat-cat">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Top reason</div>
+        <div class="stat-value" id="stat-reason">—</div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="col-left">
+        <div class="panel">
+          <h3>Log a wasted item</h3>
+          <form id="entry-form">
+            <div class="field">
+              <label for="f-item">Item</label>
+              <input type="text" id="f-item" placeholder="e.g. Rice, Tomatoes, Bread" required />
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="f-qty">Quantity</label>
+                <input type="number" id="f-qty" min="0" step="0.1" placeholder="0" required />
+              </div>
+              <div class="field">
+                <label for="f-unit">Unit</label>
+                <select id="f-unit">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="plates">plates</option>
+                  <option value="pieces">pieces</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-cat">Category</label>
+              <select id="f-cat">
+                <option>Grains & Cereals</option>
+                <option>Vegetables</option>
+                <option>Fruits</option>
+                <option>Dairy & Eggs</option>
+                <option>Meat & Fish</option>
+                <option>Cooked / Leftovers</option>
+                <option>Bakery</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-reason">Reason</label>
+              <select id="f-reason">
+                <option>Cooked too much</option>
+                <option>Crossed expiry</option>
+                <option>Leftover from meal</option>
+                <option>Spoiled / improperly stored</option>
+                <option>Didn't like it</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-date">Date</label>
+              <input type="date" id="f-date" required />
+            </div>
+            <div class="field">
+              <label for="f-photo">Photo</label>
+              <input type="file" id="f-photo" accept="image/*" />
+            </div>
+            <button type="submit" class="btn-add">Add to ledger</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h3>Smart insights</h3>
+          <div id="insights-list">
+            <p class="insight-empty">Log a few entries to see patterns here.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="panel">
+          <h3>Waste by category</h3>
+          <div class="chart-wrap">
+            <canvas id="cat-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Recent entries</h3>
+          <div class="ledger-head">
+            <span>Date</span><span>Item</span><span>Category</span><span>Qty</span><span>Reason</span><span></span>
+          </div>
+          <div id="ledger-body">
+            <div class="ledger-empty">No entries yet — add your first one on the left.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-note">GreenLog — IGEN ZERO2HERO prototype · SDG Targets 12.3 / 9.5</p>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
