@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GreenLog — Food Waste Ledger</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="auth-page">
+
+  <div class="brand-bar">
+    <span class="brand-mark">GreenLog <span class="stamp">SDG 12.3</span></span>
+  </div>
+
+  <div class="auth-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Food waste ledger — prototype</span>
+      <h1>Log what gets <em>thrown out</em>.<br>Cook smarter next time.</h1>
+      <p class="sub">A simple daily ledger for homes, hostels, and mess halls to track food waste and surface patterns worth acting on — built for IGEN ZERO2HERO.</p>
+      <div class="sdg-tags">
+        <span class="sdg-tag"><b>12.3</b> Halve food waste</span>
+        <span class="sdg-tag"><b>9.5</b> Data-driven tracking</span>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <div id="auth-error" class="auth-error"></div>
+
+      <form id="login-form">
+        <h2>Welcome back</h2>
+        <p class="auth-sub">Log in to your ledger.</p>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn-primary">Log in</button>
+        <p class="auth-toggle">New here? <button id="show-signup">Create an account</button></p>
+      </form>
+
+      <form id="signup-form" class="hidden">
+        <h2>Start your ledger</h2>
+        <p class="auth-sub">Takes under a minute.</p>
+        <div class="field">
+          <label for="signup-name">Name</label>
+          <input type="text" id="signup-name" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" required minlength="6" autocomplete="new-password" />
+        </div>
+        <button type="submit" class="btn-primary">Create account</button>
+        <p class="auth-toggle">Already have one? <button id="show-login">Log in</button></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
