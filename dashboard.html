@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — GreenLog</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-page">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand-mark">GreenLog <span class="stamp">SDG 12.3</span></span>
+      <div class="user-pill">
+        <span class="who" id="who-text">—</span>
+        <button class="btn-ghost" id="logout-btn">Log out</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="dash">
+    <div class="header-row">
+      <div>
+        <h1 class="page-title">Your ledger<span class="stamp">live</span></h1>
+        <p class="page-sub">Log every item that gets thrown out. Patterns show up after a few entries.</p>
+      </div>
+      <div class="streak-badge" id="streak-badge" style="display: none;">
+        <span id="streak-text">🔥 0 day streak</span>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">This Week</div>
+        <div class="stat-value" id="stat-week-kg">0 kg</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">This Month</div>
+        <div class="stat-value" id="stat-month-kg">0 kg</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="stat-label">Most Wasted</div>
+        <div class="stat-value" id="stat-most-wasted">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total entries</div>
+        <div class="stat-value" id="stat-total">0</div>
+      </div>
+    </div>
+
+    <div class="panel co2-card" id="co2-comparison-card">
+      <div class="co2-card-head">
+        <div>
+          <h3>CO2 emissions</h3>
+          <p class="co2-subtext">Track your food-waste emissions and compare month-over-month.</p>
+        </div>
+        <div class="co2-summary" id="co2-summary-text">Log more entries to see your trend.</div>
+      </div>
+      <div class="co2-card-body">
+        <div class="co2-value" id="co2-current-total">0 kg CO2e</div>
+        <div class="co2-equivalent" id="co2-equivalent">Equivalent to 0 km of car travel</div>
+      </div>
+    </div>
+
+    <div class="weekly-goal-section" id="weekly-goal-section">
+      <div class="goal-input-group">
+        <label for="weekly-goal-input">Set weekly goal (kg):</label>
+        <input type="number" id="weekly-goal-input" min="0" step="0.1" placeholder="e.g. 5" />
+        <button id="weekly-goal-save" class="btn-sm">Save goal</button>
+      </div>
+      <div class="progress-bar-wrap" id="progress-bar-wrap" style="display: none;">
+        <div class="progress-info">
+          <span id="progress-text">0 kg / — goal this week</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="col-left">
+        <div class="panel">
+          <h3>Log a wasted item</h3>
+          <form id="entry-form">
+            <div class="field">
+              <label for="f-item">Item</label>
+              <div class="item-input-group">
+                <input type="text" id="f-item" placeholder="e.g. Rice, Tomatoes, Bread" required />
+                <span class="photo-spinner" id="photo-spinner" style="display: none;">⏳</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="f-qty">Quantity</label>
+                <input type="number" id="f-qty" min="0" step="0.1" placeholder="0" required />
+              </div>
+              <div class="field">
+                <label for="f-unit">Unit</label>
+                <select id="f-unit">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="plates">plates</option>
+                  <option value="pieces">pieces</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-cat">Category</label>
+              <select id="f-cat">
+                <option>Grains & Cereals</option>
+                <option>Vegetables</option>
+                <option>Fruits</option>
+                <option>Dairy & Eggs</option>
+                <option>Meat & Fish</option>
+                <option>Cooked / Leftovers</option>
+                <option>Bakery</option>
+                <option value="Other">Other (specify)</option>
+              </select>
+              <input type="text" id="custom-category" placeholder="Type your category..." style="display:none; margin-top:6px;" />
+            </div>
+            <div class="field">
+              <label for="f-reason">Reason</label>
+              <select id="f-reason">
+                <option>Cooked too much</option>
+                <option>Crossed expiry</option>
+                <option>Leftover from meal</option>
+                <option>Spoiled / improperly stored</option>
+                <option>Didn't like it</option>
+                <option value="Other">Other (specify)</option>
+              </select>
+              <input type="text" id="custom-reason" placeholder="Type your reason..." style="display:none; margin-top:6px;" />
+            </div>
+            <div class="field">
+              <label for="f-date">Date</label>
+              <input type="date" id="f-date" required />
+            </div>
+            <button type="submit" class="btn-add" id="submit-btn">Add to ledger</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="insights-header">
+            <h3>Smart insights</h3>
+            <button id="refresh-insights-btn" class="btn-sm" title="Refresh insights">↻</button>
+          </div>
+          <div id="insights-list">
+            <p class="insight-empty">Log a few entries to see patterns here.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="panel">
+        <div class="chart-panel-header">
+          <h3>Waste by category</h3>
+          <div class="chart-toggle-group">
+            <button id="chart-weight-btn" class="btn-sm chart-toggle active" type="button">Weight (kg)</button>
+            <button id="chart-co2-btn" class="btn-sm chart-toggle" type="button">CO2e (kg)</button>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="cat-chart"></canvas>
+        </div>
+        </div>
+        <div class="panel leaderboard-panel">
+          <div class="leaderboard-header">
+            <h3>Household leaderboard</h3>
+            <button id="refresh-leaderboard-btn" class="btn-sm" title="Refresh leaderboard">↻</button>
+          </div>
+          <div id="leaderboard-body" class="leaderboard-body">
+            <p class="leaderboard-empty">Loading leaderboard…</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="ledger-header">
+            <h3>Recent entries</h3>
+            <button id="csv-export-btn" class="btn-sm" title="Export as CSV">↓ CSV</button>
+          </div>
+          <div class="ledger-head">
+            <span>Date</span><span>Item</span><span>Category</span><span>Qty</span><span>Reason</span><span></span>
+          </div>
+          <div id="ledger-body">
+            <div class="ledger-empty">No entries yet — add your first one on the left.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-note">GreenLog — IGEN ZERO2HERO prototype · SDG Targets 12.3 / 9.5</p>
+    <button id="feedback-btn" class="feedback-fab" title="Send feedback">💬</button>
+  </main>
+
+  <!-- Feedback Form Modal -->
+  <div id="feedback-modal" class="modal hidden">
+    <div class="modal-overlay" id="feedback-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Send feedback</h2>
+        <button id="feedback-close" class="modal-close" type="button">×</button>
+      </div>
+      <form id="feedback-form">
+        <div class="field">
+          <label for="feedback-message">Your feedback</label>
+          <textarea id="feedback-message" placeholder="Tell us what you think..." rows="4" required></textarea>
+        </div>
+        <div class="field">
+          <label for="feedback-location">
+            <span>Location</span>
+            <button type="button" id="detect-location-btn" class="btn-detect">📍 Detect</button>
+          </label>
+          <input type="text" id="feedback-location" placeholder="e.g. Chennai, Tamil Nadu" />
+          <div id="location-status" class="location-status" style="display: none;"></div>
+        </div>
+        <div class="field">
+          <label for="feedback-email">Email (optional)</label>
+          <input type="email" id="feedback-email" placeholder="For follow-up" />
+        </div>
+        <button type="submit" class="btn-primary feedback-submit" id="feedback-submit-btn">Send feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/emissionFactors.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
